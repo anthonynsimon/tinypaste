@@ -12,21 +12,18 @@ from .render import json_response
 def get_paste(id):
     """Retrieves a paste by ID"""
 
-    cur = database.connection.cursor()
     try:
-        cur.execute(
+        cursor = database.connection.cursor()
+        cursor.execute(
             """SELECT id, content, created_at FROM pastes WHERE id = %s;""", id)
     except:
         raise NotFound
 
-    rows = cur.fetchall()
-    if len(rows) is 0:
-        raise NotFound
+    row = cursor.fetchone()
+    if row is None:
+        raise InternalServerError
 
-    paste = {}
-    paste['id'] = rows[0][0]
-    paste['content'] = rows[0][1]
-    paste['created_at'] = rows[0][2]
+    paste = row_to_paste(row)
 
     return json_response(200, paste)
 
@@ -35,30 +32,39 @@ def get_paste(id):
 def create_paste():
     """Creates a paste and returns its ID"""
 
+    # TODO: make this nicer!
     try:
         payload = create_paste_schema.validate(request.data)
     except:
         raise BadRequest()
 
-    conn = database.connection
-    cursor = conn.cursor()
     try:
-        cursor.execute("""INSERT INTO pastes (content, created_at) VALUES (%s, %s);""",
-                       (payload['content'], int(time.time())))
-        cursor.execute(
-            """SELECT id, content, created_at FROM pastes WHERE id = last_insert_id();""")
-        conn.commit()
+        conn = database.connection
+        try:
+            cursor = conn.cursor()
+            cursor.execute("""INSERT INTO pastes (content, created_at) VALUES (%s, %s);""",
+                           (payload['content'], int(time.time())))
+            cursor.execute(
+                """SELECT id, content, created_at FROM pastes WHERE id = last_insert_id();""")
+            conn.commit()
+        except:
+            conn.rollback()
+            raise InternalServerError
     except:
-        conn.rollback()
         raise InternalServerError
 
-    rows = cursor.fetchone()
-    if rows is None:
+    row = cursor.fetchone()
+    if row is None:
         raise InternalServerError
 
-    paste = {}
-    paste['id'] = rows[0]
-    paste['content'] = rows[1]
-    paste['created_at'] = rows[2]
+    paste = row_to_paste(row)
 
     return json_response(201, paste)
+
+
+def row_to_paste(row):
+    paste = {}
+    paste['id'] = row[0]
+    paste['content'] = row[1]
+    paste['created_at'] = row[2]
+    return paste
