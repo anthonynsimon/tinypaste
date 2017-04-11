@@ -1,23 +1,26 @@
 from flask import make_response, jsonify
 from werkzeug.exceptions import default_exceptions, HTTPException, NotFound
+
 import json
 
 
-def json_response(status:int, data):
+def json_response(status: int, data):
     response = make_response()
     response.status_code = status
     response.content_type = 'application/json'
     response.data = json.dumps(data)
     return response
 
-def json_error(status:int, message):
+
+def json_error(status: int, message):
     return json_response(status, {"error": message})
+
 
 def respond_only_json(flask_app):
     """All error responses will reply this instead"""
 
     def ex_to_json_error(ex):
-        if isinstance(ex, HTTPException):              
+        if isinstance(ex, HTTPException):
             status = ex.code
             message = ex.description
         else:

@@ -6,7 +6,9 @@ setup(
     include_package_data=True,
     install_requires=[
         'flask',
-        'schema',
-        'flask-mysqldb'
+        'python-dotenv',
+        'Flask-SQLAlchemy',
+        # 'flask-marshmallow',
+        'marshmallow-sqlalchemy'
     ]
 )
