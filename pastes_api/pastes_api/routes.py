@@ -13,7 +13,6 @@ from pastes_api.errors import not_found_error, validation_error
 def get_paste(id):
     paste = db.session.query(Paste).get(id)
     result = paste_schema.dump(paste).data
-    app.logger.debug(result)
     if result is None or not result:
         return json_error(404, not_found_error("No paste with such id found."))
     return json_response(200, result)
