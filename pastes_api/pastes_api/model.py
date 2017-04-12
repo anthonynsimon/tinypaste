@@ -1,6 +1,6 @@
 import datetime
 
-from marshmallow import post_load, fields, ValidationError, validates
+from marshmallow import post_dump, fields, ValidationError, validates
 
 from pastes_api import db, marshall
 
@@ -25,6 +25,11 @@ class Paste(db.Model):
 class PasteSchema(marshall.ModelSchema):
     class Meta:
         model = Paste
+
+    @post_dump
+    def process_dump(self, data):
+        data.pop('id')
+        return data
 
     @validates('content')
     def validate_content(self, value):
