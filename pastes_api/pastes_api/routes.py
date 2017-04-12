@@ -10,7 +10,7 @@ from pastes_api.errors import not_found_error, validation_error
 
 
 @app.route("/pastes/<id>", methods=['GET'])
-def index(id):
+def get_paste(id):
     paste = db.session.query(Paste).get(id)
     result = paste_schema.dump(paste).data
     app.logger.debug(result)
