@@ -1,26 +1,35 @@
 import datetime
 
-from marshmallow import post_load, fields
+from marshmallow import post_load, fields, ValidationError, validates
 
 from pastes_api import db, marshall
 
 
 class Paste(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
-    created_at = db.Column(db.String(32), nullable=True)
-    content = db.Column(db.String(2048), nullable=False)
+    __tablename__ = 'pastes'
 
-    def __init__(self, content, created_at=None):
-        self.content = content
-        if created_at is not None:
-            self.created_at = created_at
-        else:
-            self.created_at = datetime.datetime.now().isoformat()
+    id = db.Column(
+        db.Integer,
+        primary_key=True)
+
+    created_at = db.Column(
+        db.String(32),
+        nullable=False,
+        default=datetime.datetime.utcnow)
+
+    content = db.Column(
+        db.String(2048),
+        nullable=False)
 
 
 class PasteSchema(marshall.ModelSchema):
     class Meta:
         model = Paste
 
+    @validates('content')
+    def validate_content(self, value):
+        if len(value) > 2048:
+            raise ValidationError()
 
-paste_schema = PasteSchema()
+
+paste_schema = PasteSchema(strict=True)
