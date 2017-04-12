@@ -8,7 +8,7 @@ setup(
         'flask',
         'python-dotenv',
         'Flask-SQLAlchemy',
-        # 'flask-marshmallow',
+        'Flask-Migrate',
         'marshmallow-sqlalchemy'
     ]
 )
