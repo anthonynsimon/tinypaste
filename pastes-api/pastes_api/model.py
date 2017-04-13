@@ -28,7 +28,8 @@ class PasteSchema(marshall.ModelSchema):
 
     @post_dump
     def process_dump(self, data):
-        data.pop('id')
+        if data:
+            data.pop('id')
         return data
 
     @validates('content')
