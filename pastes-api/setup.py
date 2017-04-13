@@ -7,8 +7,10 @@ setup(
     install_requires=[
         'flask',
         'python-dotenv',
-        'Flask-SQLAlchemy',
-        'Flask-Migrate',
-        'marshmallow-sqlalchemy'
+        'flask-sqlalchemy',
+        'flask-migrate',
+        'flask-marshmallow',
+        'marshmallow-sqlalchemy',
+        'mysqlclient'
     ]
 )
