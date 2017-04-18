@@ -11,6 +11,8 @@ setup(
         'flask-migrate',
         'flask-marshmallow',
         'marshmallow-sqlalchemy',
-        'mysqlclient'
+        'mysqlclient',
+        'requests',
+        'flask-script'
     ]
 )
