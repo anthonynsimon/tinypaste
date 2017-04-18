@@ -10,3 +10,7 @@ class Config(object):
     """
 
     load_dotenv(find_dotenv())
+
+    APP_HOST = os.environ.get('APP_HOST', '127.0.0.1')
+    APP_PORT = int(os.environ.get('APP_PORT', 5000))
+    DEBUG = os.environ.get('DEBUG', False)

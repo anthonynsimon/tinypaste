@@ -1,8 +1,8 @@
-from pastes_api import app, config, manager
+from shorten_id_api import app, config, manager
 
 @manager.command
 def run():
-    """Run the Pastes API server from the dotenv config"""
+    """Run the Shorten ID API server from the dotenv config"""
     app.run(
             debug=config.DEBUG,
             host=config.APP_HOST,
