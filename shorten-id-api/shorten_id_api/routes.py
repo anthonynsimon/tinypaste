@@ -24,7 +24,7 @@ def unshorten():
     if not is_short_id_valid(short_id):
         return json_error(400, validation_error({"short_id": ["Invalid or missing value"]}))
     id = decode_id(short_id)
-    return json_response(200, id)
+    return json_response(200, {"id": id})
 
 
 def validate_id(id):
