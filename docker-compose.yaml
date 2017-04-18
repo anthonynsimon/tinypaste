@@ -1,0 +1,40 @@
+version: "3"
+
+volumes:
+  tinypaste_volume:
+
+networks: 
+  tinypaste:
+
+services:
+  pastes_api:
+    env_file:
+      - ./pastes-api/.env
+    image: pastes-api
+    build:
+      context: ./pastes-api
+    ports:
+      - "8080:8080"
+    networks:
+      - tinypaste
+    depends_on:
+      - database
+  shorten_id_api:
+    env_file:
+      - ./shorten-id-api/.env
+    image: shorten-id-api
+    build:
+      context: ./shorten-id-api
+    networks:
+      - tinypaste
+  database:
+    image: mysql
+    environment:
+      - MYSQL_ROOT_PASSWORD=password
+      - MYSQL_DATABASE=tinypaste
+    ports:
+      - "3306:3306"
+    networks:
+      - tinypaste
+    volumes:
+      - "tinypaste_volume:/var/lib/mysql"
