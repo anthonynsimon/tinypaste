@@ -11,3 +11,9 @@ def validation_error(errors):
         "message": "There were validation errors.",
         "errors": errors
     }
+
+def internal_error():
+    return {
+        "type": "Internal",
+        "message": "Internal server error. Something went wrong, that's all we know."
+    }
