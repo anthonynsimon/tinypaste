@@ -13,6 +13,7 @@ setup(
         'marshmallow-sqlalchemy',
         'mysqlclient',
         'requests',
-        'flask-script'
+        'flask-script',
+        'redis'
     ]
 )

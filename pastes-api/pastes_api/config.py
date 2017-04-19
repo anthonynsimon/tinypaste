@@ -17,7 +17,9 @@ class Config(object):
 
     SHORTEN_ID_SERVICE_ADDRESS = os.environ.get('SHORTEN_ID_SERVICE_ADDRESS')
 
-    DATABASE = os.environ.get('DATABASE')
-    SECRET_KEY = os.environ.get('SECRET_KEY', 'secret')
     SQLALCHEMY_DATABASE_URI = os.environ.get('SQLALCHEMY_DATABASE_URI')
     SQLALCHEMY_TRACK_MODIFICATIONS = os.environ.get('SQLALCHEMY_TRACK_MODIFICATIONS', False)
+
+    REDIS_HOST = os.environ.get('REDIS_HOST')
+    REDIS_PORT = os.environ.get('REDIS_PORT')
+    REDIS_DB = os.environ.get('REDIS_DB')

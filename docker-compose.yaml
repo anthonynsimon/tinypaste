@@ -23,6 +23,12 @@ services:
     image: shorten-id-api
     networks:
       - tinypaste
+  redis:
+    image: redis
+    ports:
+      - "6379:6379"
+    networks:
+      - tinypaste
   mysqldb:
     image: mysql
     environment:
