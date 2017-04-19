@@ -11,23 +11,19 @@ services:
     env_file:
       - ./pastes-api/.env
     image: pastes-api
-    build:
-      context: ./pastes-api
     ports:
       - "8080:8080"
     networks:
       - tinypaste
     depends_on:
-      - database
+      - mysqldb
   shorten_id_api:
     env_file:
       - ./shorten-id-api/.env
     image: shorten-id-api
-    build:
-      context: ./shorten-id-api
     networks:
       - tinypaste
-  database:
+  mysqldb:
     image: mysql
     environment:
       - MYSQL_ROOT_PASSWORD=password
