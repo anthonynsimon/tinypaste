@@ -15,6 +15,8 @@ class Config(object):
     APP_PORT = int(os.environ.get('APP_PORT', 5000))
     DEBUG = os.environ.get('DEBUG', False)
 
+    LOG_OUTPUT_PATH = os.environ.get('LOG_OUTPUT_PATH', '/var/log/app.log')
+
     SHORTEN_ID_SERVICE_ADDRESS = os.environ.get('SHORTEN_ID_SERVICE_ADDRESS')
 
     SQLALCHEMY_DATABASE_URI = os.environ.get('SQLALCHEMY_DATABASE_URI')

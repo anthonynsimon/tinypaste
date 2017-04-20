@@ -1,3 +1,5 @@
+import logging
+
 from flask import Flask
 from flask_script import Manager
 
@@ -9,6 +11,7 @@ config = Config()
 app = Flask(__name__)
 app.config.from_object(config)
 respond_only_json(app)
+logging.basicConfig(filename=config.LOG_OUTPUT_PATH, level=logging.DEBUG)
 
 # Config Flask Script
 manager = Manager(app)

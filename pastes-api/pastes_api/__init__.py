@@ -1,3 +1,5 @@
+import logging
+
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 from flask_marshmallow import Marshmallow
@@ -14,6 +16,7 @@ app = Flask(__name__)
 app.config.from_object(config)
 respond_only_json(app)
 marshall = Marshmallow(app)
+logging.basicConfig(filename=config.LOG_OUTPUT_PATH, level=logging.DEBUG)
 
 # Config DB
 db = SQLAlchemy(app)
