@@ -5,27 +5,26 @@ from flask import request
 
 
 class CustomFormatter(logging.Formatter):
-    converter=datetime.datetime.fromtimestamp
+    converter=datetime.datetime.utcfromtimestamp
     def formatTime(self, record, datefmt=None):
         ct = self.converter(record.created)
         if datefmt:
             s = ct.strftime(datefmt)
         else:
-            t = ct.strftime("%Y-%m-%d %H:%M:%S")
-            s = "%s,%03d" % (t, record.msecs)
+            s = ct.strftime('%Y-%m-%dT%H:%M:%SZ')
         return s
 
 def create_stream_handler():
     stream_handler = logging.StreamHandler()
     stream_handler.setFormatter(
-        CustomFormatter('[%(levelname)s] %(asctime)s %(message)s', datefmt='%Y-%m-%d,%H:%M:%S.%f')
+        CustomFormatter('[%(levelname)s] %(asctime)s %(message)s')
     )
     return stream_handler
 
 def create_file_handler(out_path):
     file_handler = logging.FileHandler(out_path)
     file_handler.setFormatter(
-        CustomFormatter('[%(levelname)s] %(asctime)s %(message)s', datefmt='%Y-%m-%d,%H:%M:%S.%f')
+        CustomFormatter('[%(levelname)s] %(asctime)s %(message)s')
     )
     return file_handler
 
@@ -34,7 +33,7 @@ def log_requests(app):
     def after_request(response):
         app.logger.info('{code} {latency} {clientip} {method} {path}'.format(
             code=response.status_code,
-            latency="-1ms",
+            latency="100ms",
             clientip=request.remote_addr,
             method=request.method,
             path=request.full_path
