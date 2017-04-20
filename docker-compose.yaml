@@ -60,7 +60,7 @@ services:
       - tinypaste
 
   logstash:
-    image: custom-logstash
+    image: logstash
     networks:
       - tinypaste
      
