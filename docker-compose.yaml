@@ -51,8 +51,6 @@ services:
       - "9200:9200"
     networks:
       - tinypaste
-    # volumes:
-    #   - "tinypaste_volume:/usr/share/elasticsearch/data"
 
   kibana:
     image: kibana
@@ -63,7 +61,6 @@ services:
 
   logstash:
     image: custom-logstash
-    ports:
-      - "5044"
     networks:
       - tinypaste
+     
