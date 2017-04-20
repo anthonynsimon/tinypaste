@@ -11,7 +11,8 @@ class CustomFormatter(logging.Formatter):
         if datefmt:
             s = ct.strftime(datefmt)
         else:
-            s = ct.strftime('%Y-%m-%dT%H:%M:%SZ')
+            t = ct.strftime('%Y-%m-%dT%H:%M:%S')
+            s = "%s.%03dZ" % (t, record.msecs)
         return s
 
 def create_stream_handler():
@@ -33,7 +34,7 @@ def log_requests(app):
     def after_request(response):
         app.logger.info('{code} {latency} {clientip} {method} {path}'.format(
             code=response.status_code,
-            latency="-1ms",
+            latency="100ms",
             clientip=request.remote_addr,
             method=request.method,
             path=request.full_path

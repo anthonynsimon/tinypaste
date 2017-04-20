@@ -11,7 +11,8 @@ class CustomFormatter(logging.Formatter):
         if datefmt:
             s = ct.strftime(datefmt)
         else:
-            s = ct.strftime('%Y-%m-%dT%H:%M:%SZ')
+            t = ct.strftime('%Y-%m-%dT%H:%M:%S')
+            s = "%s.%03dZ" % (t, record.msecs)
         return s
 
 def create_stream_handler():
